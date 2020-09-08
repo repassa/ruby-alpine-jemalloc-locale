@@ -11,13 +11,19 @@ ENV RUBY_MAJOR 2.3
 ENV RUBY_VERSION 2.3.8
 ENV RUBY_DOWNLOAD_SHA256 910f635d84fd0d81ac9bdee0731279e6026cb4cd1315bbbb5dfb22e09c5c1dfe
 ENV RUBYGEMS_VERSION 3.0.3
+ENV JEMALLOC_VERSION 4.5.0
+RUN wget -O - https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 | tar -xj && \
+    cd jemalloc-${JEMALLOC_VERSION} && \ 
+	gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"; \
+    ./configure --build="$gnuArch" && \
+    make && \
+    make install
 
 # some of ruby's build scripts are written in ruby
 #   we purge system ruby later to make sure our final image uses what we just built
 RUN set -ex \
 	\
 	&& buildDeps=' \
-		libjemalloc-dev \
 		bison \
 		dpkg-dev \
 		libgdbm-dev \

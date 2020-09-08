@@ -7,7 +7,8 @@ RUN set -eux; \
 		ca-certificates \
 		libffi-dev \
 		libgmp-dev \
-		libssl-dev \
+		libssl1.0-dev \
+		libssl1.0.2 \
 		libyaml-dev \
 		procps \
 		zlib1g-dev \

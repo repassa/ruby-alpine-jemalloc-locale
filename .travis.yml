@@ -4,7 +4,7 @@ services: docker
 env:
   - VERSION=2.7 VARIANT=buster
   - VERSION=2.7 VARIANT=buster/slim
-  - VERSION=2.7 VARIANT=alpine3.11
+  - VERSION=2.7 VARIANT=alpine3.12
   - VERSION=2.7 VARIANT=alpine3.10
   - VERSION=2.3 VARIANT=stretch
   - VERSION=2.3 VARIANT=stretch/slim

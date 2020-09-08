@@ -22,6 +22,8 @@ RUN set -eux; \
 	apt-get install -y --no-install-recommends \
 		bison \
 		dpkg-dev \
+		libssl1.0-dev \
+		libssl1.0.2 \
 		libgdbm-dev \
 		ruby \
 		libjemalloc-dev \
@@ -48,7 +50,7 @@ RUN set -eux; \
 	\
 	autoconf; \
 	gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"; \
-	./configure \
+	CC=gcc-5 && ./configure \
 		--build="$gnuArch" \
 		--disable-install-doc \
 		--with-jemalloc \
