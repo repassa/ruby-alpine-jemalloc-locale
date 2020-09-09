@@ -119,4 +119,47 @@ ENV PATH $GEM_HOME/bin:$PATH
 # adjust permissions of a few directories for running "gem install" as an arbitrary user
 RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 
+RUN apt-get update -qq && apt-get install -y \
+        git \
+        build-essential \
+        g++ \
+        libpq-dev \
+        qt4-dev-tools \
+        libqt4-dev \
+        xfonts-75dpi \
+        xfonts-base \
+        postgresql-client \
+        git \
+        imagemagick libmagickwand-dev \
+        nodejs curl apt-transport-https apt-utils dialog
+
+# Configura o locale para pt_BR.UTF-8
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+	&& localedef -i pt_BR -c -f UTF-8 -A /usr/share/locale/locale.alias pt_BR.UTF-8
+
+ENV LANG pt_BR.UTF-8 
+ENV LC_ALL pt_BR.UTF-8
+
+ENV TZ 'America/Sao_Paulo'
+RUN echo $TZ > /etc/timezone && \
+        apt-get update && apt-get install -y tzdata && \
+        rm /etc/localtime && \
+        ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+        dpkg-reconfigure -f noninteractive tzdata && \
+        apt-get clean
+
+# Instala o Wkhtmltopdf
+RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb
+RUN dpkg -i wkhtmltox_0.12.5-1.stretch_amd64.deb
+RUN cp /usr/local/bin/wkhtmltopdf /usr/bin/
+RUN cp /usr/local/bin/wkhtmltoimage /usr/bin/
+
+# Instala o Node
+ARG VERSION="node_8.x"
+ARG DISTRO="stretch"
+RUN echo "deb https://deb.nodesource.com/$VERSION $DISTRO main" | tee /etc/apt/sources.list.d/nodesource.list
+RUN echo "deb-src https://deb.nodesource.com/$VERSION $DISTRO main" | tee -a /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update -q && apt-get install -y nodejs && npm i -g npm
+
 CMD [ "irb" ]
