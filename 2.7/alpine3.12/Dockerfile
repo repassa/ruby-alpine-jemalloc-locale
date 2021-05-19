@@ -16,10 +16,14 @@ RUN set -eux; \
 	} >> /usr/local/etc/gemrc
 
 ENV RUBY_MAJOR 2.7
+<<<<<<< HEAD
 ENV RUBY_VERSION 2.7.3
 ENV RUBY_DOWNLOAD_SHA256 b224f9844646cc92765df8288a46838511c1cec5b550d8874bd4686a904fcee7
+=======
+ENV RUBY_VERSION 2.7.2
+ENV RUBY_DOWNLOAD_SHA256 6e5706d0d4ee4e1e2f883db9d768586b4d06567debea353c796ec45e8321c3d4
+>>>>>>> 068bc75f760bde262123ab0eb46cdab082cbdd8c
 ENV JEMALLOC_VERSION 5.2.1
-
 RUN wget -O - https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 | tar -xj && \
     cd jemalloc-${JEMALLOC_VERSION} && \ 
 	gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"; \
@@ -60,12 +64,12 @@ RUN set -eux; \
 		zlib-dev \
 	; \
 	\
-	wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz"; \
-	echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.xz" | sha256sum --check --strict; \
+	wget -O ruby.tar.gz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%}/ruby-$RUBY_VERSION.tar.gz"; \
+	echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.gz" | sha256sum --check --strict; \
 	\
 	mkdir -p /usr/src/ruby; \
-	tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1; \
-	rm ruby.tar.xz; \
+	tar -xvzf ruby.tar.gz -C /usr/src/ruby --strip-components=1; \
+	rm ruby.tar.gz; \
 	\
 	cd /usr/src/ruby; \
 	\
