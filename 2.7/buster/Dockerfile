@@ -10,7 +10,7 @@ RUN set -eux; \
 
 ENV RUBY_MAJOR 2.7
 ENV RUBY_VERSION 2.7.3
-ENV RUBY_DOWNLOAD_SHA256 3e90e5a41d4df90e19c307ab0fb41789992c0b0128e6bbaa669b89ed44a0b68b
+ENV RUBY_DOWNLOAD_SHA256 8925a95e31d8f2c81749025a52a544ea1d05dad18794e6828709268b92e55338
 
 # some of ruby's build scripts are written in ruby
 #   we purge system ruby later to make sure our final image uses what we just built
